@@ -1,5 +1,5 @@
 @font-face {
-  font-family:"montserrat";
+  font-family: "montserrat";
   src: url(montserrat.ttf);
 }
 
@@ -8,12 +8,39 @@
   text-align: center;
 }
 
+.analysisContainer {
+  display: flex;
+  flex-direction: row;
+  font-size: 36;
+}
+
+.staticInformationBox {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: row;
+  width: 20vw;
+  border-color: rgba(50, 53, 84, 1);
+  border-width: 2px;
+  text-align: center;
+  font-family: ("montserrat", Helvetica);
+  font-size: 24px;
+  color: rgba(50, 53, 84, 1);
+}
+
+.graphicBox {
+  width: 70vw;
+  display: flex;
+  flex-direction: row;
+  border-color: rgba(50, 53, 84, 1);
+  border-width: 2px;
+  border-radius: 5px;
+}
+
 .buttonContainer {
   background-color: rgba(50, 53, 84, 1);
   overflow: hidden;
   display: flex;
   align-items: center;
-  
   height: 100px;
 }
 
@@ -26,6 +53,7 @@
   text-decoration: none;
   font-size: 17px;
 }
+
 .button {
   width: 100px;
   height: 50px;
@@ -33,45 +61,16 @@
   background-color: #22AA71;
   color: white;
   font-family: "Monserrat", 'helvetica';
-  font-size: 14;
+  font-size: 13px;
   text-align: center;
-  margin-left:10px;
-
- 
+  margin-left: 10px;
 }
 
 .button:hover {
   background-color: #ddd;
   color: black;
-
 }
 
 #button1 {
-
   margin-left: 50px;
 }
-
-
-
-/*
- .staticInformationBox{
-  width: 300px;
-  height: 100vh;
-  border-color: rgba(50, 53, 84, 1);
-  border-width: 2px;
-  border-radius: 5px;
-}
-/*
-#graphicBox {
-  width: 800px;
-  height: 100vh;
-  border-color: rgba(50, 53, 84, 1);
-  border-width: 2px;
-  border-radius: 5px;
-} 
- */
-
-
-
-
-
