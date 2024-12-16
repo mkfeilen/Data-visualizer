@@ -3,121 +3,25 @@ import './App.css';
 import React, { useState, useEffect } from 'react';
 import erosionOfBlade from './data/erosionOfBlade.json';
 import powerCurveData from './data/power_curve_data.json';
-//import coordinatesData from './data/rainfallChart.js';
 // import rainfall from './data/rainfall.json';
 // this data is made up as an example of what this type of graph could look like, please insert real data
 import heatMapData from './data/rainfallHeatMap.js';
-//import rainfalls2 from './data/rainfall2.json';
 import revenueFile from './data/revenue.json';
-// import coordinatesData2 from './data/rainfallSmallChart.js';
-import turbineBladePoints from './data/turbineBladePoints.json';
+import createTurbineErosionGraph from './components/createTurbineErosionGraph.js';
+import checkingYaxisRange from './components/checkingYaxisRange';
 
 function App() {
 
-  // var trace1 = erosionOfBlade.erosionLineData;
-  // var trace2 = turbineBladePoints.turbineBladePoints;
   var powerCurve = powerCurveData.powerCurveData;
-  //var rainfallPlots = rainfall.rainfallPoints;
-  //var rainfallPlots2 = rainfalls2.rainfallMarkerData;
   var revenueDataJson = revenueFile.revenue;
-  //var erosionOverTime = ('erosionOverTime', [trace1, trace2]);
 
+  // all the variable for the erosion of blade against time graph
   var trace1 = erosionOfBlade.erosionLineData;
   var erosionData = erosionOfBlade.erosionLineData;
   var erosionOverTime = [];
   erosionOverTime.push(trace1, createTurbineErosionGraph(erosionData));
 
-  function createTurbineErosionGraph(erosionData) {
-    console.log(erosionData);
-    if ("blade_length" in erosionData) {
-
-      var trace2X = [];
-      let bladeLength = erosionData["blade_length"];
-
-      trace2X.push(bladeLength, (bladeLength * 0.96), (bladeLength * 0.72), (bladeLength * 0.48), (bladeLength * 0.24), (bladeLength * 0.12), (bladeLength * 0.06), (bladeLength * 0.036), (bladeLength * 0.012), 0, (bladeLength * 0.012), (bladeLength * 0.024), (bladeLength * 0.036), (bladeLength * 0.048), (bladeLength * 0.06), (bladeLength * 0.12), (bladeLength * 0.24), (bladeLength * 0.36), (bladeLength * 0.48), (bladeLength * 0.60), (bladeLength * 0.72), (bladeLength * 0.843), (bladeLength * 0.904), (bladeLength * 0.928), (bladeLength * 0.940), (bladeLength * 0.964), (bladeLength * 0.976), (bladeLength * 0.988), (bladeLength));
-
-      return {
-        "x": trace2X,
-        "y": [
-          0.9,
-          0.7,
-          0.7,
-          0.7,
-          0.7,
-          0.7,
-          0.7,
-          0.7,
-          0.8,
-          1,
-          1.1,
-          1.2,
-          1.2,
-          1.2,
-          1.3,
-          1.4,
-          1.6,
-          1.8,
-          2,
-          2.2,
-          2.4,
-          2.8,
-          3,
-          2.9,
-          2.8,
-          2.6,
-          2.5,
-          2.4,
-          2.3
-        ],
-        "name": "turbine blade",
-        "type": "lines + markers",
-        "mode": "lines",
-        "line": { "color": "rgba(93,235,246,0.8)" }
-      }
-    } else {
-      let bladeLength = 83;
-      var trace2X = [];
-      trace2X.push(bladeLength, (bladeLength * 0.96), (bladeLength * 0.72), (bladeLength * 0.48), (bladeLength * 0.24), (bladeLength * 0.12), (bladeLength * 0.06), (bladeLength * 0.036), (bladeLength * 0.012), 0, (bladeLength * 0.012), (bladeLength * 0.024), (bladeLength * 0.036), (bladeLength * 0.048), (bladeLength * 0.06), (bladeLength * 0.12), (bladeLength * 0.24), (bladeLength * 0.36), (bladeLength * 0.48), (bladeLength * 0.60), (bladeLength * 0.72), (bladeLength * 0.843), (bladeLength * 0.904), (bladeLength * 0.928), (bladeLength * 0.940), (bladeLength * 0.964), (bladeLength * 0.976), (bladeLength * 0.988), (bladeLength));
-      return {
-        x: trace2X,
-        y: [
-          0.9,
-          0.7,
-          0.7,
-          0.7,
-          0.7,
-          0.7,
-          0.7,
-          0.7,
-          0.8,
-          1,
-          1.1,
-          1.2,
-          1.2,
-          1.2,
-          1.3,
-          1.4,
-          1.6,
-          1.8,
-          2,
-          2.2,
-          2.4,
-          2.8,
-          3,
-          2.9,
-          2.8,
-          2.6,
-          2.5,
-          2.4,
-          2.3
-        ],
-        name: "turbine blade",
-        type: 'lines + markers',
-        mode: 'lines',
-        line: { color: 'rgba(93,235,246,0.8)' }
-      }
-    }
-  }
+  var rangeData = checkingYaxisRange(revenueDataJson);
 
   // this gives the vertical line on the blade erosion graph
   var spikeMode = {
@@ -138,9 +42,11 @@ function App() {
   const yearsRange = {
     range: [0, 25]
   }
-  // this is tro change the specific y value range for the revenue graph
+
+  // this is to change the specific y value range for the revenue graph
   var rangeValue = {
     range: [700, 800]
+
   };
 
   // this toggles different atrributes within the Plotly graphs for each individual graph. 
@@ -186,10 +92,10 @@ function App() {
       setStaticInfo("This graphic shows the average rainfall in mm across the area of Greater Glasgow. The rainfall is distributed by geographical co-ordinates.")
     } else if ("REVENUE" === graphType) {
       setGraphTitle("Bar graph of changes to profit with different erosion conditions");
-      setCurrentData(revenueDataJson);
+      setCurrentData([revenueDataJson]);
       setXaxisTitle('State');
       setYaxisTitle('Profits (£1,000s)');
-      setYaxisRange(rangeValue);
+      setYaxisRange(rangeData);
       setExtraLayout(null);
       setStaticInfo("needs more info");
     }
@@ -236,7 +142,7 @@ function App() {
                   font: {
                     size: 10
                   },
-                  ...yaxisRange,
+                  range: yaxisRange
                 },
               }}
             />}
