@@ -3,34 +3,36 @@ import './App.css';
 import React, { useState, useEffect } from 'react';
 import erosionOfBlade from './data/erosionOfBlade.json';
 import powerCurveData from './data/power_curve_data.json';
-// import rainfall from './data/rainfall.json';
 // this data is made up as an example of what this type of graph could look like, please insert real data
 import heatMapData from './data/rainfallHeatMap.js';
 import revenueFile from './data/revenue.json';
 import createTurbineErosionGraph from './components/createTurbineErosionGraph.js';
-import checkingYaxisRange from './components/checkingYaxisRange';
+import checkingYaxisRange from './components/checkingYaxisRange.js';
+import staticInformationFunction from  './components/StaticInformation.js';
 
 function App() {
 
   var powerCurve = powerCurveData.powerCurveData;
   var revenueDataJson = revenueFile.revenue;
+  var revenueRangeData = checkingYaxisRange(revenueDataJson);
 
   // all the variable for the erosion of blade against time graph
   var trace1 = erosionOfBlade.erosionLineData;
   var erosionData = erosionOfBlade.erosionLineData;
   var erosionOverTime = [];
   erosionOverTime.push(trace1, createTurbineErosionGraph(erosionData));
+  // this is set to a constant as we will keep the range of years for the erosion blade information the same
+  const yearsRange = {
+    range: [0, 25]
+  }
 
-  var rangeData = checkingYaxisRange(revenueDataJson);
-
-  // this gives the vertical line on the blade erosion graph
+  // this gives attributes to plotly js for the vertical line on the blade erosion graph
   var spikeMode = {
     showspikes: true,
     spikedistance: -1,
     spikemode: 'across+toaxis',
     spikedash: 'solid',
     spikecolor: 'rgba(102, 102, 102, 1)',
-    spikemode: 'across',
     spikesnap: 'cursor',
     showline: true,
     showgrid: true,
@@ -39,17 +41,8 @@ function App() {
   var hoverMode = {
     hovermode: 'x',
   };
-  const yearsRange = {
-    range: [0, 25]
-  }
 
-  // this is to change the specific y value range for the revenue graph
-  var rangeValue = {
-    range: [700, 800]
-
-  };
-
-  // this toggles different atrributes within the Plotly graphs for each individual graph. 
+  // these useStates toggle different atrributes within the Plotly graph software for each individual graph. 
   const [graphType, setGraphType] = useState();
   const [graphTitle, setGraphTitle] = useState();
   const [currentData, setCurrentData] = useState();
@@ -59,8 +52,9 @@ function App() {
   const [yaxisRange, setYaxisRange] = useState();
   const [extraLayout, setExtraLayout] = useState();
   const [hoverLayout, setHoverLayout] = useState();
+  
 
-  // this is the selector for the graph data, it also sets all the attributes for the Plotly part.
+  // this is the selector for the graph data, it also sets all the attributes for calling Plotly graphs.
   // if you want to add extra graphs and buttons later, copy and paste an extra button in the btton container <div> in the App
   // then change the setgraph type and add an extra else if clause below with the imported data and the plotly attributes set.
   useEffect(() => {
@@ -70,7 +64,7 @@ function App() {
       setYaxisRange(yearsRange);
       setXaxisTitle('Total erosion length(m)');
       setYaxisTitle('Time (years)');
-      setStaticInfo("This is a graph that shows the erosion of a wind turbine blade over time under average conditions.");
+      setStaticInfo(staticInformationFunction(erosionData));
       setExtraLayout(spikeMode);
       setHoverLayout(hoverMode);
     } else if ("POWER_AGAINST_WINDSPEED" === graphType) {
@@ -81,7 +75,7 @@ function App() {
       setYaxisTitle('Generated power KW');
       setExtraLayout(spikeMode);
       setHoverLayout(hoverMode);
-      setStaticInfo("This is a graph that shows the power output of a turbine blade against windspeed by comparing uneroded, current erosion levels and forecasted erosim after 12 months.");
+      setStaticInfo(staticInformationFunction(powerCurve[0]));
     } else if ("AREA_RAINFALL" === graphType) {
       setGraphTitle("Rainfall levels across Glasgow");
       setCurrentData(heatMapData);
@@ -89,18 +83,17 @@ function App() {
       setXaxisTitle('longitude');
       setYaxisTitle('latitude');
       setExtraLayout(null);
-      setStaticInfo("This graphic shows the average rainfall in mm across the area of Greater Glasgow. The rainfall is distributed by geographical co-ordinates.")
+      setStaticInfo(staticInformationFunction(heatMapData[0]))
     } else if ("REVENUE" === graphType) {
       setGraphTitle("Bar graph of changes to profit with different erosion conditions");
       setCurrentData([revenueDataJson]);
       setXaxisTitle('State');
       setYaxisTitle('Profits (£1,000s)');
-      setYaxisRange(rangeData);
+      setYaxisRange(revenueRangeData);
       setExtraLayout(null);
-      setStaticInfo("needs more info");
+      setStaticInfo(staticInformationFunction(revenueDataJson));
     }
   }, [graphType])
-
 
   return (
     <div className="App">

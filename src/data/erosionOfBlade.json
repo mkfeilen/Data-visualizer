@@ -53,6 +53,7 @@
       "blade_length": 83,
       "line": {
         "color": "rgb(252, 3, 40)"
-      }
+      },
+      "static_information" : "This is a graph that shows the erosion of a wind turbine blade over time under average conditions."
     }
 }

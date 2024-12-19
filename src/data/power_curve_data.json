@@ -48,7 +48,8 @@
             "mode": "lines",
             "line": {
                 "color": "rgb(39,188,157)"
-            }
+            },
+            "static_information":"This is a graph that shows the power output of a turbine blade against windspeed by comparing uneroded, current erosion levels and forecasted erosion after 12 months."
         },
         {
         "name": "erosion of blade over time",

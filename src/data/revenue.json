@@ -15,6 +15,7 @@
         "marker": {
             "color": ["rgb(39,188,157)", "rgb(178,196,30)", "rgb(243, 147, 37)"]
         },
-        "yaxisRange": [700, 800]
+        "yaxisRange": [700, 800],
+        "static_information": "this is the static information for this graph. It is talking about the revenue of a turbine and shows how erosion over time affects this if not repaired."
     }
 }

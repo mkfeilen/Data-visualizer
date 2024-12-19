@@ -7,7 +7,8 @@ var heatMapData = [
       type: 'heatmap',
       hoverongaps: false,
       colorscale: 'YlGnBu',
-      reversescale: true
+      reversescale: true,
+     "static_information": "This graphic shows the average rainfall in mm across the area of Greater Glasgow. The rainfall is distributed by geographical co-ordinates."
 
     }
   ];
