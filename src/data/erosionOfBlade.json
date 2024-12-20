@@ -54,6 +54,7 @@
       "line": {
         "color": "rgb(252, 3, 40)"
       },
+      "hovertemplate":" Erosion length: %{x} <br> Years: %{y} <extra></extra>",
       "static_information" : "This is a graph that shows the erosion of a wind turbine blade over time under average conditions."
     }
 }

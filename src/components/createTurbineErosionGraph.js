@@ -42,7 +42,11 @@ function createTurbineErosionGraph(erosionData) {
     name: "turbine blade",
     type: 'lines + markers',
     mode: 'lines',
-    line: { color: 'rgba(93,235,246,0.8)' }
+    hovertemplate: 'Erosion length along blade <extra></extra>',
+    line: { color: 'rgba(15,13,225,0.8)' },
+    xaxis: {
+      range:[0, bladeLength]
+    } 
   }
 }
 
